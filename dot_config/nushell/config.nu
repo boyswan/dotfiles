@@ -24,9 +24,9 @@
 #
 # use ~/.cache/starship/init.nu
 
-if (is-terminal --stdin) {
-  $env.GPG_TTY = (tty)
-}
+# if (is-terminal --stdin) {
+#   $env.GPG_TTY = (tty)
+# }
 
 alias vim = nvim
 alias s = nu scripts.nu
@@ -45,7 +45,6 @@ alias gco = git checkout
 alias gc = git commit -m
 alias lg = lazygit
 alias tp = telepresence
-alias zigup = zigup --path-link /opt/homebrew/bin/zig
 
 $env.config = {
   show_banner: false,
@@ -96,4 +95,4 @@ $env.config = {
   ]
 }
 
-use ~/.cache/starship/init.nu
+# use ~/.cache/starship/init.nu
