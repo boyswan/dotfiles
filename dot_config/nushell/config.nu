@@ -45,6 +45,7 @@ alias gco = git checkout
 alias gc = git commit -m
 alias lg = lazygit
 alias tp = telepresence
+alias nb = sudo nixos-rebuild switch --flake ~/Projects/nixos-config/#jack_vm
 
 $env.config = {
   show_banner: false,
