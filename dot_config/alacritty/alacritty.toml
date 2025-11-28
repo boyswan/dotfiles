@@ -48,8 +48,8 @@ program = "/bin/zsh"
 [font]
 size = 12
 
-[font.normal]
-family = "MesloLGL Nerd Font"
+# [font.normal]
+# family = "MesloLGL Nerd Font"
 
 [font.offset]
 x = 0
