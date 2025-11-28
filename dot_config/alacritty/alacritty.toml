@@ -60,9 +60,9 @@ chars = "#"
 key = "Key3"
 mods = "Alt"
 
-[window]
-decorations = "buttonless"
-option_as_alt = "Both"
+# [window]
+# decorations = "buttonless"
+# option_as_alt = "Both"
 
 [window.padding]
 x = 5
