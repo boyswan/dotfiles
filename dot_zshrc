@@ -1,0 +1,69 @@
+setopt HIST_IGNORE_ALL_DUPS     
+setopt HIST_IGNORE_DUPS        
+setopt HIST_SAVE_NO_DUPS        
+setopt HIST_FIND_NO_DUPS        
+
+
+autoload -Uz compinit && compinit
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+
+VIM="nvim"
+
+alias python='python3'
+alias vim='nvim'
+alias s='nu scripts.nu'
+alias j='just'
+alias jl='just --list'
+alias f='fzf'
+alias k='kubectl'
+alias dc='docker compose'
+alias z='zellij'
+alias gs='git status'
+alias gb='git branch'
+alias gp='git push'
+alias ga='git add'
+alias gco='git checkout'
+alias gc='git commit -m'
+alias lg='lazygit'
+
+git_branch() {
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
+cd_fzf() {
+  cd $HOME && cd "$(fd -t d | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)" && echo "$PWD" && tree -L 2
+}
+
+# open_fzf_multi() {
+#   local file
+#   file=$(find ~/Documents ~/Desktop ~/Downloads -maxdepth 1 -type f | fzf --preview="cat {}")
+#   [ -n "$file" ] && open "$file"
+# }
+
+# history_fzf() {
+#   local cmd
+#   cmd=$(history | fzf --tac --no-sort)
+#   if [ -n "$cmd" ]; then
+#     eval "$cmd"
+#   fi
+# }
+history_fzf() {
+  local cmd
+  cmd=$(fc -ln 1 | fzf --tac --no-sort)
+  if [ -n "$cmd" ]; then
+    eval "$cmd"
+  fi
+}
+
+bindkey -s '^F' 'cd_fzf\n'
+bindkey -s '^V' 'nvim\n'
+bindkey -s '^O' 'open_fzf\n'
+bindkey -s '^h' 'history_fzf\n'
+bindkey '^l' expand-or-complete
+
+setopt PROMPT_SUBST
+# PROMPT='%F{green}%n%f:%F{blue}%1~%f%F{magenta}$(git_branch)%f$'
+# PROMPT='%F{green}%n%f %F{blue}%~%f%F{magenta}$(git_branch)%f $ '
+PROMPT='%F{green}%n%f %F{cyan}%~%f%F{magenta}$(git_branch)%f%F{242} $%f '
+# PROMPT='%F{green}%n%f:%F{blue}%~%f%F{red}$(git_branch)%f$ '
+# PROMPT='%F{blue}%~%f%F{red}$(git_branch)%f$ '
