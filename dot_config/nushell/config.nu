@@ -17,6 +17,9 @@ alias lg = lazygit
 alias tp = telepresence
 alias nb = sudo nixos-rebuild switch --flake ~/Projects/nixos-config/#jack_vm
 
+$env.EDITOR = "nvim"
+$env.VISUAL = "nvim"
+$env.TERMINAL = "alacritty"
 $env.config = {
   show_banner: false,
   edit_mode: vi,
