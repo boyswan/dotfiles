@@ -17,7 +17,7 @@ alias lg = lazygit
 alias tp = telepresence
 alias nb = sudo nixos-rebuild switch --flake ~/Projects/nixos-config/#jack_vm
 
-def cd_fzf [] {
+def --env cd_fzf [] {
   cd $env.HOME
   let dir = (fd -t d | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)
   if ($dir | is-not-empty) {
