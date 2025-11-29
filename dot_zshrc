@@ -34,19 +34,6 @@ cd_fzf() {
   cd $HOME && cd "$(fd -t d | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)" && echo "$PWD" && tree -L 2
 }
 
-# open_fzf_multi() {
-#   local file
-#   file=$(find ~/Documents ~/Desktop ~/Downloads -maxdepth 1 -type f | fzf --preview="cat {}")
-#   [ -n "$file" ] && open "$file"
-# }
-
-# history_fzf() {
-#   local cmd
-#   cmd=$(history | fzf --tac --no-sort)
-#   if [ -n "$cmd" ]; then
-#     eval "$cmd"
-#   fi
-# }
 history_fzf() {
   local cmd
   cmd=$(fc -ln 1 | fzf --tac --no-sort)
@@ -62,8 +49,4 @@ bindkey -s '^h' 'history_fzf\n'
 bindkey '^l' expand-or-complete
 
 setopt PROMPT_SUBST
-# PROMPT='%F{green}%n%f:%F{blue}%1~%f%F{magenta}$(git_branch)%f$'
-# PROMPT='%F{green}%n%f %F{blue}%~%f%F{magenta}$(git_branch)%f $ '
 PROMPT='%F{green}%n%f %F{cyan}%~%f%F{magenta}$(git_branch)%f%F{242} $%f '
-# PROMPT='%F{green}%n%f:%F{blue}%~%f%F{red}$(git_branch)%f$ '
-# PROMPT='%F{blue}%~%f%F{red}$(git_branch)%f$ '
