@@ -67,3 +67,13 @@ mods = "Alt"
 [window.padding]
 x = 5
 y = 5
+
+[keyboard]
+bindings = [
+  { key = "K", mods = "Command", action = "ClearHistory" },
+  { key = "V", mods = "Command", action = "Paste" },
+  { key = "C", mods = "Command", action = "Copy" },
+  { key = "0", mods = "Command", action = "ResetFontSize" },
+  { key = "=", mods = "Command", action = "IncreaseFontSize" },
+  { key = "-", mods = "Command", action = "DecreaseFontSize" },
+]
