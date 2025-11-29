@@ -42,6 +42,16 @@ $env.config = {
       event: { send: executehostcommand cmd: "cd_fzf" }
     }
     {
+      name: "open_nvim_current_dir"
+      modifier: control
+      keycode: char_o
+      mode: [emacs, vi_normal, vi_insert]
+      event: {
+        send: executehostcommand
+        cmd: "nvim ."
+      }
+    }
+    {
       name: alt_back
       modifier: alt
       keycode: backspace 
