@@ -53,7 +53,7 @@ return {
         'taplo',
         'terraformls',
         'nushell',
-        'buf_ls'
+        'buf_ls',
         'nil_ls'
       }
       for _, lsp in pairs(servers) do
