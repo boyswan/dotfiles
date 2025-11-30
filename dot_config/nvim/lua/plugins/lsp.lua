@@ -54,6 +54,7 @@ return {
         'terraformls',
         'nushell',
         'buf_ls'
+        'nil_ls'
       }
       for _, lsp in pairs(servers) do
         vim.lsp.config(lsp, {
@@ -67,7 +68,6 @@ return {
       vim.lsp.config('ruff', {
         init_options = {
           settings = {
-            -- Ruff language server settings go here
           }
         }
       })
