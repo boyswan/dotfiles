@@ -26,6 +26,18 @@ def --env cd_fzf [] {
     tree -L 2
   }
 }
+def --env file_fzf [] {
+    cd $env.HOME
+    let file = (fd -t f | fzf --preview="bat --color=always --style=numbers --line-range=:500 {}" --bind="space:toggle-preview" --preview-window=:hidden)
+    if ($file | is-not-empty) {
+        let file_path = ($file | path expand)
+        let dir = ($file_path | path dirname)
+        cd $dir
+        print $"Changed to: ($env.PWD)"
+        print $"Selected: ($file_path | path basename)"
+        ^$env.EDITOR ($file_path | path basename)
+    }
+}
 
 $env.EDITOR = "nvim"
 $env.VISUAL = "nvim"
@@ -52,6 +64,13 @@ $env.config = {
       keycode: char_f
       mode: [emacs, vi_insert, vi_normal]
       event: { send: executehostcommand cmd: "cd_fzf" }
+    }
+    {
+      name: file_fzf
+      modifier: control
+      keycode: char_e
+      mode: [emacs, vi_insert, vi_normal]
+      event: { send: executehostcommand cmd: "file_fzf" }
     }
     {
       name: "open_nvim_current_dir"
