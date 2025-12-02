@@ -2,7 +2,7 @@ return {
   {
     "navarasu/onedark.nvim",
     lazy = false,
-    version = "v0.1.0", -- Pin to the old version
+    -- version = "v0.1.0", -- Pin to the old version
     priority = 1000,
     config = function()
       require('onedark').setup {
