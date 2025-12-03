@@ -74,7 +74,7 @@ return {
       vim.lsp.enable('ruff')
 
       vim.lsp.config('buf_ls', {
-        cmd = { "buf", "lsp" }, 
+        cmd = { "buf", "lsp", "serve" },
       })
 
       vim.lsp.enable('buf_ls')
