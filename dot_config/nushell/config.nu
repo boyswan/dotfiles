@@ -19,16 +19,17 @@ alias nb = sudo nixos-rebuild switch --flake ~/Projects/nixos-config/#jack_vm
 
 def --env cd_fzf [] {
   cd $env.HOME
-  let dir = (fd -t d | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)
+  let dir = (fd -t d . Projects | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)
   if ($dir | is-not-empty) {
     cd $dir
     print $env.PWD
     tree -L 2
   }
 }
+
 def --env file_fzf [] {
     cd $env.HOME
-    let file = (fd -t f | fzf --preview="bat --color=always --style=numbers --line-range=:500 {}" --bind="space:toggle-preview" --preview-window=:hidden)
+    let file = (fd -t f . Projects | fzf --preview="bat --color=always --style=numbers --line-range=:500 {}" --bind="space:toggle-preview" --preview-window=:hidden)
     if ($file | is-not-empty) {
         let file_path = ($file | path expand)
         let dir = ($file_path | path dirname)
