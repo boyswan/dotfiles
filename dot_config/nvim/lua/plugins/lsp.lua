@@ -53,7 +53,6 @@ return {
         'taplo',
         'terraformls',
         'nushell',
-        'buf_ls',
         'nil_ls'
       }
       for _, lsp in pairs(servers) do
@@ -73,6 +72,12 @@ return {
       })
 
       vim.lsp.enable('ruff')
+
+      vim.lsp.config('buf_ls', {
+        cmd = { "buf", "lsp" }, 
+      })
+
+      vim.lsp.enable('buf_ls')
 
       vim.lsp.config('pyright', {
         settings = {
