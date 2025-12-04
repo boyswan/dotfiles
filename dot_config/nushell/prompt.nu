@@ -14,24 +14,24 @@ def get_env_status [] {
 # 2. Jujutsu Status Function
 # ==========================================
 def get_jj_status [] {
-    # Check if we are in a JJ repo; capture error to silence it
+    # Check if we are in a JJ repo
     let jj_check = (do -i { jj root } | complete)
 
-    # If exit code is not 0, we aren't in a jj repo
     if $jj_check.exit_code != 0 {
         return ""
     }
 
     # JJ Template:
-    # \x1b[35m   = Magenta (ID/Bookmarks)
+    # \x1b[35m   = Magenta (ID/Bookmarks) - Matches Git Branch Color
     # \x1b[32m   = Green (Description)
     # \x1b[1;31m = Bold Red (Conflict)
     # \x1b[1;33m = Bold Yellow (Divergent)
     # \x1b[90m   = Dark Gray (Immutable/Hidden)
     # \x1b[0m    = Reset
+    
     let template = '
     raw_escape_sequence("\x1b[35m") ++
-    "jj: " ++ change_id.shortest(4) ++ 
+    change_id.shortest(4) ++ 
     if(bookmarks, " [" ++ bookmarks.join(", ") ++ "]") ++ 
     raw_escape_sequence("\x1b[0m") ++ 
     
@@ -52,14 +52,15 @@ def get_jj_status [] {
         jj log --no-graph -r @ --ignore-working-copy --color always --template $template 
     } | complete).stdout | str trim
 
-    return $"(ansi reset)($stat)"
+    # Format: "on  [ID]..."
+    # We use Magenta for the icon to match Git
+    return $"(ansi reset)on (ansi magenta) (ansi reset)($stat)"
 }
 
 # ==========================================
 # 3. Git Status Function
 # ==========================================
 def get_git_status [] {
-    # Check if inside git work tree
     let git_check = (do -i { git rev-parse --is-inside-work-tree } | complete)
 
     if $git_check.exit_code != 0 {
@@ -69,17 +70,11 @@ def get_git_status [] {
     # 1. Get Branch Name
     let branch = (do -i { git branch --show-current } | complete).stdout | str trim
     
-    # 2. Get Status (Simple Dirty Check)
-    # If porcelain output is empty, it's clean.
+    # 2. Get Status
     let stat_raw = (do -i { git status --porcelain } | complete).stdout
-    
-    let status_fmt = if ($stat_raw | is-empty) {
-        "" # Clean
-    } else {
-        $"(ansi red)[!](ansi reset)" # Dirty
-    }
+    let status_fmt = if ($stat_raw | is-empty) { "" } else { $"(ansi red)[!](ansi reset)" }
 
-    # Format: "on  main [!]"
+    # Format: "on  [Branch] [Status]"
     return $"(ansi reset)on (ansi magenta) ($branch) ($status_fmt)"
 }
 
