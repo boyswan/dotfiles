@@ -129,3 +129,4 @@ $env.config = {
 }
 
 use ~/.cache/starship/init.nu
+use ./completions-jj.nu *
