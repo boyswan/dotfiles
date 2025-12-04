@@ -128,5 +128,6 @@ $env.config = {
   ]
 }
 
-use ~/.cache/starship/init.nu
-use ./completions-jj.nu *
+# use ./completions-jj.nu *
+# use ./prompt.nu
+
