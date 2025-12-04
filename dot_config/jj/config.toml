@@ -1,0 +1,12 @@
+[user]
+email = "boyswan@email.com"
+name = "boyswan"
+
+
+[aliases]
+b = ["branch"]
+n = ["new"]
+
+[ui]
+pager = "none"
+default-command = "log"
