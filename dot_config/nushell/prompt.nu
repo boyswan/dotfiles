@@ -43,7 +43,7 @@ def get_jj_status [] {
         jj log --no-graph -r @ --ignore-working-copy --color always --template $template 
     } | complete).stdout | str trim
 
-    return $"(ansi reset)on (ansi magenta) (ansi reset)($stat)"
+    return $"(ansi reset)on (ansi magenta) (ansi reset)($stat)"
 }
 
 # ==========================================
