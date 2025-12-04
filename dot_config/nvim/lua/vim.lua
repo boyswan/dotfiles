@@ -26,7 +26,7 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.splitright = true
 vim.opt.list = true
-vim.opt.listchars = { lead = '·', trail = '·' }
+vim.opt.listchars = { lead = '·', tab = '· ', trail = '·' }
 
 vim.g.mapleader = " "
 vim.g.loaded_netrw = 1
