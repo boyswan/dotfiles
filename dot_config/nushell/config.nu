@@ -128,6 +128,6 @@ $env.config = {
   ]
 }
 
-# use ./completions-jj.nu *
-# use ./prompt.nu
+use ./completions-jj.nu *
+use ./prompt.nu
 
