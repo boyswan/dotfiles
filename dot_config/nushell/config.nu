@@ -129,5 +129,4 @@ $env.config = {
 }
 
 use ./completions-jj.nu *
-use ./prompt.nu
-
+source ./prompt.nu
