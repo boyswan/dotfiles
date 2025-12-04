@@ -43,7 +43,8 @@ def get_jj_status [] {
         jj log --no-graph -r @ --ignore-working-copy --color always --template $template 
     } | complete).stdout | str trim
 
-    return $"(ansi reset)on (ansi reset)($stat)"
+    # Removed "on" because JJ uses revisions (), not branches
+    return $"(ansi reset)($stat)"
 }
 
 # ==========================================
@@ -85,13 +86,37 @@ $env.PROMPT_COMMAND = {||
     
     # --- PATH LOGIC ---
     let dir = if ($vcs_stat | is-not-empty) {
-        # CASE A: We are in a Repo (Git or JJ)
-        # Show only the current folder name (basename)
-        let base = ($env.PWD | path basename)
-        if ($base | is-empty) { "/" } else { $base }
+        # CASE A: Inside a Repo (Git or JJ)
+        # We want: "RepoName/subdir"
+        
+        # 1. Find the Root Path
+        let root = (do -i { jj root } | str trim)
+        let root = if ($root | is-empty) {
+            (do -i { git rev-parse --show-toplevel } | str trim)
+        } else {
+            $root
+        }
+
+        # 2. Calculate path relative to root
+        if ($root | is-not-empty) {
+            let root_name = ($root | path basename)
+            let relative = ($env.PWD | path relative-to $root)
+            
+            # If we are exactly at root, relative is "."
+            if $relative == "." {
+                $root_name
+            } else {
+                # Otherwise join RepoName + SubDir
+                $"($root_name)/($relative)"
+            }
+        } else {
+            # Fallback (shouldn't happen if vcs_stat was true)
+            $env.PWD | path basename
+        }
+
     } else {
-        # CASE B: We are NOT in a Repo
-        # Show full path relative to home (standard)
+        # CASE B: Not in a Repo
+        # Show standard path relative to home (e.g. ~/Downloads)
         if ($env.PWD | str starts-with $nu.home-path) {
             $env.PWD | path relative-to $nu.home-path
         } else {
@@ -100,15 +125,6 @@ $env.PROMPT_COMMAND = {||
     }
 
     # Output:
-    # [Cyan Path] [Yellow Env] [VCS Status]
+    # [Cyan Path] [VCS Status]
     $"\n(ansi cyan)($dir) ($vcs_stat)\n(ansi green)❯ (ansi reset)"
 }
-
-# $env.PROMPT_COMMAND_RIGHT = {||
-#     let date_str = (date now | format date "%Y-%m-%d")
-#     if $env.LAST_EXIT_CODE != 0 {
-#         $"(ansi red)exit:($env.LAST_EXIT_CODE) (ansi dark_gray)($date_str)(ansi reset)"
-#     } else {
-#         $"(ansi dark_gray)($date_str)(ansi reset)"
-#     }
-# }
