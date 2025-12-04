@@ -8,5 +8,5 @@ b = ["bookmark"]
 n = ["new"]
 
 [ui]
-paginate = "never"    # UPDATED: This correctly disables the pager
-default-command = "log --reversed"
+paginate = "never"
+default-command = ["log", "--reversed"]
