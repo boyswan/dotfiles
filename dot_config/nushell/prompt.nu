@@ -80,7 +80,7 @@ def get_vcs_status [] {
 # 5. Prompt Configuration
 # ==========================================
 $env.PROMPT_COMMAND = {||
-    let env_stat = (get_env_status)
+    # let env_stat = (get_env_status)
     let vcs_stat = (get_vcs_status)
     
     # --- PATH LOGIC ---
@@ -101,7 +101,7 @@ $env.PROMPT_COMMAND = {||
 
     # Output:
     # [Cyan Path] [Yellow Env] [VCS Status]
-    $"\n(ansi cyan)($dir) ($env_stat)($vcs_stat)\n(ansi green)❯ (ansi reset)"
+    $"\n(ansi cyan)($dir) ($vcs_stat)\n(ansi green)❯ (ansi reset)"
 }
 
 $env.PROMPT_COMMAND_RIGHT = {||

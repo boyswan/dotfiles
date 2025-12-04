@@ -8,4 +8,5 @@ b = ["branch"]
 n = ["new"]
 
 [ui]
-default-command = "log"
+pager = "none"
+default-command = "log --reversed"
