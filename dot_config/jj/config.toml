@@ -4,9 +4,9 @@ name = "boyswan"
 
 
 [aliases]
-b = ["branch"]
+b = ["bookmark"]
 n = ["new"]
 
 [ui]
-pager = "none"
+paginate = "never"    # UPDATED: This correctly disables the pager
 default-command = "log --reversed"

@@ -104,11 +104,11 @@ $env.PROMPT_COMMAND = {||
     $"\n(ansi cyan)($dir) ($vcs_stat)\n(ansi green)❯ (ansi reset)"
 }
 
-$env.PROMPT_COMMAND_RIGHT = {||
-    let date_str = (date now | format date "%Y-%m-%d")
-    if $env.LAST_EXIT_CODE != 0 {
-        $"(ansi red)exit:($env.LAST_EXIT_CODE) (ansi dark_gray)($date_str)(ansi reset)"
-    } else {
-        $"(ansi dark_gray)($date_str)(ansi reset)"
-    }
-}
+# $env.PROMPT_COMMAND_RIGHT = {||
+#     let date_str = (date now | format date "%Y-%m-%d")
+#     if $env.LAST_EXIT_CODE != 0 {
+#         $"(ansi red)exit:($env.LAST_EXIT_CODE) (ansi dark_gray)($date_str)(ansi reset)"
+#     } else {
+#         $"(ansi dark_gray)($date_str)(ansi reset)"
+#     }
+# }
