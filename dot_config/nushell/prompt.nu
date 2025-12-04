@@ -14,21 +14,12 @@ def get_env_status [] {
 # 2. Jujutsu Status Function
 # ==========================================
 def get_jj_status [] {
-    # Check if we are in a JJ repo
     let jj_check = (do -i { jj root } | complete)
 
     if $jj_check.exit_code != 0 {
         return ""
     }
 
-    # JJ Template:
-    # \x1b[35m   = Magenta (ID/Bookmarks) - Matches Git Branch Color
-    # \x1b[32m   = Green (Description)
-    # \x1b[1;31m = Bold Red (Conflict)
-    # \x1b[1;33m = Bold Yellow (Divergent)
-    # \x1b[90m   = Dark Gray (Immutable/Hidden)
-    # \x1b[0m    = Reset
-    
     let template = '
     raw_escape_sequence("\x1b[35m") ++
     change_id.shortest(4) ++ 
@@ -52,8 +43,6 @@ def get_jj_status [] {
         jj log --no-graph -r @ --ignore-working-copy --color always --template $template 
     } | complete).stdout | str trim
 
-    # Format: "on  [ID]..."
-    # We use Magenta for the icon to match Git
     return $"(ansi reset)on (ansi magenta) (ansi reset)($stat)"
 }
 
@@ -67,14 +56,10 @@ def get_git_status [] {
         return ""
     }
 
-    # 1. Get Branch Name
     let branch = (do -i { git branch --show-current } | complete).stdout | str trim
-    
-    # 2. Get Status
     let stat_raw = (do -i { git status --porcelain } | complete).stdout
     let status_fmt = if ($stat_raw | is-empty) { "" } else { $"(ansi red)[!](ansi reset)" }
 
-    # Format: "on  [Branch] [Status]"
     return $"(ansi reset)on (ansi magenta) ($branch) ($status_fmt)"
 }
 
@@ -82,48 +67,43 @@ def get_git_status [] {
 # 4. Main VCS Controller
 # ==========================================
 def get_vcs_status [] {
-    # Priority 1: Check JJ
     let jj = (get_jj_status)
-    if ($jj | is-not-empty) {
-        return $jj
-    }
+    if ($jj | is-not-empty) { return $jj }
 
-    # Priority 2: Check Git (Fallback)
     let git = (get_git_status)
-    if ($git | is-not-empty) {
-        return $git
-    }
+    if ($git | is-not-empty) { return $git }
 
-    # Neither
     return ""
 }
 
 # ==========================================
 # 5. Prompt Configuration
 # ==========================================
-
-# Left Prompt
 $env.PROMPT_COMMAND = {||
-    # Calculate relative path
-    let dir = (
+    let env_stat = (get_env_status)
+    let vcs_stat = (get_vcs_status)
+    
+    # --- PATH LOGIC ---
+    let dir = if ($vcs_stat | is-not-empty) {
+        # CASE A: We are in a Repo (Git or JJ)
+        # Show only the current folder name (basename)
+        let base = ($env.PWD | path basename)
+        if ($base | is-empty) { "/" } else { $base }
+    } else {
+        # CASE B: We are NOT in a Repo
+        # Show full path relative to home (standard)
         if ($env.PWD | str starts-with $nu.home-path) {
             $env.PWD | path relative-to $nu.home-path
         } else {
             $env.PWD
         }
-    )
-    
-    let env_stat = (get_env_status)
-    let vcs_stat = (get_vcs_status)
-    
-    # Structure: 
-    # [Newline]
+    }
+
+    # Output:
     # [Cyan Path] [Yellow Env] [VCS Status]
-    # [Green Arrow]
     $"\n(ansi cyan)($dir) ($env_stat)($vcs_stat)\n(ansi green)❯ (ansi reset)"
 }
 
-# Right Prompt
 $env.PROMPT_COMMAND_RIGHT = {||
     let date_str = (date now | format date "%Y-%m-%d")
     if $env.LAST_EXIT_CODE != 0 {
