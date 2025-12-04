@@ -1,28 +1,20 @@
 # ==========================================
-# 1. Environment Status (Nix/Direnv)
+# 1. Jujutsu Logic
 # ==========================================
-def get_env_status [] {
-    let parts = []
-    let parts = (if ("flake.nix" | path exists) { $parts | append "" } else { $parts })
-    # let parts = (if ($env.DIRENV_DIR? | is-not-empty) { $parts | append "▼" } else { $parts })
+def get_jj_info [] {
+    # Check if in JJ repo and get Root Path immediately
+    let root_check = (do -i { jj root } | complete)
 
-    if ($parts | is-empty) { return "" }
-    return $"(ansi grey)($parts | str join ' ')(ansi reset) "
-}
-
-# ==========================================
-# 2. Jujutsu Status Function
-# ==========================================
-def get_jj_status [] {
-    let jj_check = (do -i { jj root } | complete)
-
-    if $jj_check.exit_code != 0 {
-        return ""
+    if $root_check.exit_code != 0 {
+        return null
     }
 
+    let root_path = ($root_check.stdout | str trim)
+
+    # JJ Template
     let template = '
     raw_escape_sequence("\x1b[35m") ++
-    change_id.shortest(4) ++ 
+    " " ++ change_id.shortest(4) ++ 
     if(bookmarks, " [" ++ bookmarks.join(", ") ++ "]") ++ 
     raw_escape_sequence("\x1b[0m") ++ 
     
@@ -43,80 +35,66 @@ def get_jj_status [] {
         jj log --no-graph -r @ --ignore-working-copy --color always --template $template 
     } | complete).stdout | str trim
 
-    # Removed "on" because JJ uses revisions (), not branches
-    return $"(ansi reset)($stat)"
+    # Return structured data: Root Path + Formatted String
+    return { 
+        root: $root_path, 
+        display: $"(ansi reset)($stat)" 
+    }
 }
 
 # ==========================================
-# 3. Git Status Function
+# 2. Git Logic
 # ==========================================
-def get_git_status [] {
-    let git_check = (do -i { git rev-parse --is-inside-work-tree } | complete)
+def get_git_info [] {
+    # Check if in Git repo and get Root Path immediately
+    let root_check = (do -i { git rev-parse --show-toplevel } | complete)
 
-    if $git_check.exit_code != 0 {
-        return ""
+    if $root_check.exit_code != 0 {
+        return null
     }
+
+    let root_path = ($root_check.stdout | str trim)
 
     let branch = (do -i { git branch --show-current } | complete).stdout | str trim
     let stat_raw = (do -i { git status --porcelain } | complete).stdout
     let status_fmt = if ($stat_raw | is-empty) { "" } else { $"(ansi red)[!](ansi reset)" }
 
-    return $"(ansi reset)on (ansi magenta) ($branch) ($status_fmt)"
+    # Return structured data
+    return { 
+        root: $root_path, 
+        display: $"(ansi reset)on (ansi magenta) ($branch) ($status_fmt)" 
+    }
 }
 
 # ==========================================
-# 4. Main VCS Controller
-# ==========================================
-def get_vcs_status [] {
-    let jj = (get_jj_status)
-    if ($jj | is-not-empty) { return $jj }
-
-    let git = (get_git_status)
-    if ($git | is-not-empty) { return $git }
-
-    return ""
-}
-
-# ==========================================
-# 5. Prompt Configuration
+# 3. Main Prompt Command
 # ==========================================
 $env.PROMPT_COMMAND = {||
-    # let env_stat = (get_env_status)
-    let vcs_stat = (get_vcs_status)
+    # 1. Attempt to get VCS Info (returns Record or Null)
+    # We check JJ first. If null, check Git.
+    let vcs_info = (get_jj_info)
+    let vcs_info = if ($vcs_info == null) { (get_git_info) } else { $vcs_info }
     
-    # --- PATH LOGIC ---
-    let dir = if ($vcs_stat | is-not-empty) {
-        # CASE A: Inside a Repo (Git or JJ)
-        # We want: "RepoName/subdir"
+    # 2. Path Calculation
+    let dir = if ($vcs_info != null) {
+        # --- CASE A: Inside a Repo ---
+        # We have the authoritative root path from the vcs_info record.
+        let root = $vcs_info.root
+        let root_name = ($root | path basename)
         
-        # 1. Find the Root Path
-        let root = (do -i { jj root } | str trim)
-        let root = if ($root | is-empty) {
-            (do -i { git rev-parse --show-toplevel } | str trim)
+        # Calculate relative path
+        let relative = ($env.PWD | path relative-to $root | str trim)
+        
+        # If relative is "." or empty, we are at the root -> Show "RepoName"
+        # Else -> Show "RepoName/subdir"
+        if ($relative == ".") or ($relative | is-empty) {
+            $root_name
         } else {
-            $root
+            $"($root_name)/($relative)"
         }
-
-        # 2. Calculate path relative to root
-        if ($root | is-not-empty) {
-            let root_name = ($root | path basename)
-            let relative = ($env.PWD | path relative-to $root)
-            
-            # If we are exactly at root, relative is "."
-            if $relative == "." {
-                $root_name
-            } else {
-                # Otherwise join RepoName + SubDir
-                $"($root_name)/($relative)"
-            }
-        } else {
-            # Fallback (shouldn't happen if vcs_stat was true)
-            $env.PWD | path basename
-        }
-
     } else {
-        # CASE B: Not in a Repo
-        # Show standard path relative to home (e.g. ~/Downloads)
+        # --- CASE B: Not in a Repo ---
+        # Standard home-relative path
         if ($env.PWD | str starts-with $nu.home-path) {
             $env.PWD | path relative-to $nu.home-path
         } else {
@@ -124,7 +102,19 @@ $env.PROMPT_COMMAND = {||
         }
     }
 
-    # Output:
-    # [Cyan Path] [VCS Status]
-    $"\n(ansi cyan)($dir) ($vcs_stat)\n(ansi green)❯ (ansi reset)"
+    # 3. Formatting
+    # If vcs_info is null, display empty string, otherwise display the text
+    let vcs_display = if ($vcs_info != null) { $vcs_info.display } else { "" }
+
+    # Output
+    $"\n(ansi cyan)($dir) ($vcs_display)\n(ansi green)❯ (ansi reset)"
+}
+
+$env.PROMPT_COMMAND_RIGHT = {||
+    let date_str = (date now | format date "%Y-%m-%d")
+    if $env.LAST_EXIT_CODE != 0 {
+        $"(ansi red)exit:($env.LAST_EXIT_CODE) (ansi dark_gray)($date_str)(ansi reset)"
+    } else {
+        $"(ansi dark_gray)($date_str)(ansi reset)"
+    }
 }
