@@ -1,7 +1,9 @@
 alias vim = nvim
 alias s = nu scripts.nu
-alias j = just
-alias jl = just --list
+alias j = jj
+alias js = jj st
+alias jd = jj describe
+alias jl = jj log --reversed
 alias l = ls 
 alias f = fzf 
 alias k = kubectl 
