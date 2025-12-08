@@ -46,7 +46,7 @@ TERM = "xterm-256color"
 # program = "/bin/zsh"
 
 [font]
-size = 10
+size = 9
 
 [font.normal]
 family = "MesloLGL Nerd Font"
