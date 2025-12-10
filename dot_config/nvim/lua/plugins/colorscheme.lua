@@ -11,6 +11,9 @@ return {
       require('onedark').load()
     end
   },
+  {
+    "https://github.com/y9san9/y9nika.nvim"
+  }
 
   -- { 'datsfilipe/vesper.nvim' },
   -- { "vague-theme/vague.nvim", },
