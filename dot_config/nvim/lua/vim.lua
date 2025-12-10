@@ -48,8 +48,8 @@ autocmd WinLeave * setlocal nocursorline
 autocmd ModeChanged * lua vim.schedule(function() vim.cmd('redraw') end)
 ]])
 
--- Filetype settings
-vim.cmd("au BufNewFile,BufRead *.wgsl set filetype=wgsl")
+-- -- Filetype settings
+-- vim.cmd("au BufNewFile,BufRead *.wgsl set filetype=wgsl")
 
 -- Key mappings
 vim.api.nvim_set_keymap("", "<PageUp>", "<Nop>", { noremap = true, silent = true })

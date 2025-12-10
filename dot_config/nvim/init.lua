@@ -45,6 +45,7 @@ vim.filetype.add({
   extension = {
     nomad = "hcl",
     prompt = "yaml",
+    tmpl = "md",
     gotmpl = 'gotmpl',
   },
 })
