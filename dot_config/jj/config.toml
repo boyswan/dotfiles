@@ -1,7 +1,3 @@
-[user]
-email = "boyswan@vm"
-name = "boyswan"
-
 
 [aliases]
 b = ["bookmark"]
