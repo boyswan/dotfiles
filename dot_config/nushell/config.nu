@@ -11,6 +11,7 @@ alias jla = jj log -r ::@ --reversed
 alias l = ls 
 alias f = fzf 
 alias k = kubectl 
+alias t = talosctl 
 alias dc = docker compose
 alias z = zellij
 alias gs = git status
