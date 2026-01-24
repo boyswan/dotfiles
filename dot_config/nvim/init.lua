@@ -37,6 +37,7 @@ require("lazy").setup({
   require("./plugins.lsp"),
   require("./plugins.colorscheme"),
   require("./plugins.navigation"),
+  require("./plugins.ai"),
 })
 
 require("keymaps")
