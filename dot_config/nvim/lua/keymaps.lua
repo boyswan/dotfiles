@@ -25,3 +25,31 @@ keymap("t", "<C-j>", "<C-\\><C-n><C-W><C-j>")
 keymap("t", "<C-k>", "<C-\\><C-n><C-W><C-k>")
 
 vim.cmd [[nnoremap <silent> <leader>k <cmd>lua vim.diagnostic.open_float()<CR>]]
+
+local function get_path(absolute)
+  if absolute then
+    local file = vim.fn.expand("%:p")
+    local home = vim.fn.expand("$HOME")
+    return file:gsub("^" .. vim.pesc(home), "~")
+  end
+  return vim.fn.expand("%")
+end
+
+local function yank_path(absolute)
+  vim.fn.setreg("+", get_path(absolute))
+end
+
+local function yank_path_with_lines(absolute)
+  local file = get_path(absolute)
+  local line_start = vim.fn.line("v")
+  local line_end = vim.fn.line(".")
+  if line_start > line_end then
+    line_start, line_end = line_end, line_start
+  end
+  vim.fn.setreg("+", file .. ":" .. line_start .. "-" .. line_end)
+end
+
+vim.keymap.set('n', '<leader>yp', function() yank_path(false) end)
+vim.keymap.set('v', '<leader>yp', function() yank_path_with_lines(false) end)
+vim.keymap.set('n', '<leader>yP', function() yank_path(true) end)
+vim.keymap.set('v', '<leader>yP', function() yank_path_with_lines(true) end)
