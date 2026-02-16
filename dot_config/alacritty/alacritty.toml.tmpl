@@ -1,0 +1,16 @@
+{{- $profile := index . "profile" -}}
+{{- if not $profile -}}
+{{- if eq .chezmoi.os "darwin" -}}
+{{- $profile = "macos" -}}
+{{- else -}}
+{{- $profile = "linux" -}}
+{{- end -}}
+{{- end -}}
+
+{{- if eq $profile "macos" -}}
+{{ includeTemplate ".chezmoitemplates/alacritty/macos.toml" }}
+{{- else if eq $profile "linux" -}}
+{{ includeTemplate ".chezmoitemplates/alacritty/linux.toml" }}
+{{- else -}}
+{{ includeTemplate ".chezmoitemplates/alacritty/linux.toml" }}
+{{- end -}}

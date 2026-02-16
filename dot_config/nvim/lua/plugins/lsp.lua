@@ -12,7 +12,6 @@ return {
       vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
       vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
       vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
-      vim.keymap.set('n', '<space>f', vim.lsp.buf.format, opts)
 
       -- LSP settings
       local on_attach = function(client, bufnr)
@@ -30,7 +29,6 @@ return {
         vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
         vim.keymap.set('n', '<space>r', vim.lsp.buf.rename, bufopts)
         vim.keymap.set({ 'n', 'v' }, '<space>c', vim.lsp.buf.code_action, bufopts)
-        vim.keymap.set('n', '<space>f', vim.lsp.buf.format, bufopts)
       end
 
       local capabilities = require('cmp_nvim_lsp').default_capabilities()

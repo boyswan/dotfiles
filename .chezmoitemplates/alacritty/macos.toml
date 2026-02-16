@@ -1,0 +1,75 @@
+[colors.bright]
+black = "0x5c6370"
+blue = "0x61afef"
+cyan = "0x56b6c2"
+green = "0x98c379"
+magenta = "0xc678dd"
+red = "0xe86671"
+white = "0xabb2bf"
+yellow = "0xe5c07b"
+
+[colors.cursor]
+text = "0x282c34"
+
+[colors.dim]
+black = "0x181a1f"
+blue = "0x61afef"
+cyan = "0x56b6c2"
+green = "0x98c379"
+magenta = "0xc678dd"
+red = "0xe86671"
+white = "0x5c6370"
+yellow = "0xe5c07b"
+
+[colors.normal]
+black = "0x181a1f"
+blue = "0x61afef"
+cyan = "0x56b6c2"
+green = "0x98c379"
+magenta = "0xc678dd"
+red = "0xe86671"
+white = "0xabb2bf"
+yellow = "0xe5c07b"
+
+[colors.primary]
+background = "0x232326"
+foreground = "0xE1E1E1"
+
+[colors.selection]
+background = "0x181a1f" # black
+text = "CellForeground"
+
+[env]
+TERM = "xterm-256color"
+
+# [terminal.shell]
+# program = "/bin/zsh"
+
+[font]
+size = 13
+
+[font.normal]
+family = "MesloLGL Nerd Font"
+
+[font.offset]
+x = 0
+y = 0
+
+[window]
+# decorations = "buttonless"
+option_as_alt = "Both"
+
+[window.padding]
+x = 5
+y = 5
+
+[keyboard]
+bindings = [
+  { key = "3", mods = "Alt", chars = "#" },
+  { key = "K", mods = "Command", action = "ClearHistory" },
+  { key = "V", mods = "Command", action = "Paste" },
+  { key = "C", mods = "Command", action = "Copy" },
+  { key = "0", mods = "Command", action = "ResetFontSize" },
+  { key = "=", mods = "Command", action = "IncreaseFontSize" },
+  { key = "-", mods = "Command", action = "DecreaseFontSize" },
+]
