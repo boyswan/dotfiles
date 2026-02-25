@@ -1,0 +1,62 @@
+# window-decoration = false
+# macos-titlebar-style = hidden
+# window-decoration = native
+window-decoration = server
+macos-titlebar-style = tabs
+
+# Color configuration
+background = "#232326"
+foreground = "#E1E1E1"
+
+cursor-color = "#2c323c"
+cursor-invert-fg-bg = true
+minimum-contrast = 1.05
+mouse-hide-while-typing = true
+
+# Normal colors
+palette = 0=#1e2127
+palette = 1=#e06c75
+palette = 2=#98c379
+palette = 3=#d19a66
+palette = 4=#57a5e5
+palette = 5=#c678dd
+palette = 6=#56b6c2
+palette = 7=#828791
+
+# Bright colors
+palette = 8=#5c6370
+palette = 9=#e06c75
+palette = 10=#98c379
+palette = 11=#d19a66
+palette = 12=#61afef
+palette = 13=#c678dd
+palette = 14=#56b6c2
+palette = 15=#e6efff
+
+# Selection colors
+selection-background = "#3e4452"
+# selection-foreground = "foreground"
+
+# Font configuration
+font-family = "MesloLGL Nerd Font"
+font-size = 12
+font-thicken = true
+
+# Window configuration
+window-padding-x = 5
+window-padding-y = 5
+macos-option-as-alt = true
+
+# Shell configuration
+
+# Environment variables
+# term = "xterm-256color"
+
+# Keybindings
+# keybind = alt+3=#{
+#
+
+
+command = /opt/homebrew/bin/nu
+# shell-integration = zsh
+
