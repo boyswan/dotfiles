@@ -3,18 +3,15 @@
 # ==========================================
 def get_jj_info [] {
     # Check if in JJ repo and get Root Path immediately
-    let root_check = (do -i { jj root } | complete)
-
+    let root_check = (jj root | complete)
     if $root_check.exit_code != 0 {
         return null
     }
-
     let root_path = ($root_check.stdout | str trim)
-
     # JJ Template
     let template = '
     raw_escape_sequence("\x1b[35m") ++
-    " " ++ change_id.shortest(4) ++ 
+    " " ++ change_id.shortest(4) ++ 
     if(bookmarks, " [" ++ bookmarks.join(", ") ++ "]") ++ 
     raw_escape_sequence("\x1b[0m") ++ 
     
@@ -22,50 +19,38 @@ def get_jj_info [] {
     if(divergent, raw_escape_sequence("\x1b[1;33m") ++ " ≠" ++ raw_escape_sequence("\x1b[0m"), "") ++
     if(hidden,    raw_escape_sequence("\x1b[90m")   ++ " ø"   ++ raw_escape_sequence("\x1b[0m"), "") ++
     if(immutable, raw_escape_sequence("\x1b[90m")   ++ " ∞"   ++ raw_escape_sequence("\x1b[0m"), "") ++
-
     " | " ++
-
     if(empty, "∅ ", "") ++
     raw_escape_sequence("\x1b[32m") ++ 
     coalesce(description.first_line().substr(0, 30), "(no description)") ++ 
     raw_escape_sequence("\x1b[0m")
     '
-
-    let stat = (do -i { 
-        jj log --no-graph -r @ --ignore-working-copy --color always --template $template 
-    } | complete).stdout | str trim
-
+    let stat = (jj log --no-graph -r @ --ignore-working-copy --color always --template $template | complete).stdout | str trim
     # Return structured data: Root Path + Formatted String
     return { 
         root: $root_path, 
         display: $"(ansi reset)($stat)" 
     }
 }
-
 # ==========================================
 # 2. Git Logic
 # ==========================================
 def get_git_info [] {
     # Check if in Git repo and get Root Path immediately
-    let root_check = (do -i { git rev-parse --show-toplevel } | complete)
-
+    let root_check = (git rev-parse --show-toplevel | complete)
     if $root_check.exit_code != 0 {
         return null
     }
-
     let root_path = ($root_check.stdout | str trim)
-
-    let branch = (do -i { git branch --show-current } | complete).stdout | str trim
-    let stat_raw = (do -i { git status --porcelain } | complete).stdout
+    let branch = (git branch --show-current | complete).stdout | str trim
+    let stat_raw = (git status --porcelain | complete).stdout
     let status_fmt = if ($stat_raw | is-empty) { "" } else { $"(ansi red)[!](ansi reset)" }
-
     # Return structured data
     return { 
         root: $root_path, 
-        display: $"(ansi reset)on (ansi magenta) ($branch) ($status_fmt)" 
+        display: $"(ansi reset)on (ansi magenta) ($branch) ($status_fmt)" 
     }
 }
-
 # ==========================================
 # 3. Main Prompt Command
 # ==========================================
@@ -101,15 +86,12 @@ $env.PROMPT_COMMAND = {||
             $env.PWD
         }
     }
-
     # 3. Formatting
     # If vcs_info is null, display empty string, otherwise display the text
     let vcs_display = if ($vcs_info != null) { $vcs_info.display } else { "" }
-
     # Output
     $"\n(ansi cyan)($dir) ($vcs_display)\n(ansi green)❯ (ansi reset)"
 }
-
 $env.PROMPT_COMMAND_RIGHT = {||
     let date_str = (date now | format date "%Y-%m-%d")
     if $env.LAST_EXIT_CODE != 0 {
