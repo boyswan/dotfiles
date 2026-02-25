@@ -50,6 +50,7 @@ def --env file_fzf [] {
 $env.EDITOR = "nvim"
 $env.VISUAL = "nvim"
 $env.TERMINAL = "alacritty"
+$env.PATH = ($env.PATH | prepend "/opt/homebrew/bin")
 $env.config = {
   hooks: {
     pre_prompt: [{ ||
