@@ -23,6 +23,9 @@ keymap("t", "<C-h>", "<C-\\><C-n><C-W><C-h>")
 keymap("t", "<C-l>", "<C-\\><C-n><C-W><C-l>")
 keymap("t", "<C-j>", "<C-\\><C-n><C-W><C-j>")
 keymap("t", "<C-k>", "<C-\\><C-n><C-W><C-k>")
+keymap("i", "<C-;>", "<Esc>")
+keymap("v", "<C-;>", "<Esc>")
+keymap("c", "<C-;>", "<Esc>")
 
 vim.cmd [[nnoremap <silent> <leader>k <cmd>lua vim.diagnostic.open_float()<CR>]]
 
