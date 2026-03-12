@@ -25,7 +25,7 @@ require("lazy").setup({
   "romainl/vim-cool",
   'isobit/vim-caddyfile',
   {
-    'ggandor/leap.nvim',
+    url = "https://codeberg.org/andyg/leap.nvim",
     config = function()
       vim.keymap.set({ 'n', 'v' }, 'gw', '<Plug>(leap)')
     end
