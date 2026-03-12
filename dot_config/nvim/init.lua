@@ -24,12 +24,6 @@ require("lazy").setup({
   "nvim-lua/plenary.nvim",
   "romainl/vim-cool",
   'isobit/vim-caddyfile',
-  {
-    url = "https://codeberg.org/andyg/leap.nvim",
-    config = function()
-      vim.keymap.set({ 'n', 'v' }, 'gw', '<Plug>(leap)')
-    end
-  },
   require("./plugins.lualine"),
   require("./plugins.folke"),
   require("./plugins.mini"),
