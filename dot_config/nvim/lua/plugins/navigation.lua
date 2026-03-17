@@ -7,12 +7,11 @@ return {
   -- },
   {
     'dmtrKovalenko/fff.nvim',
-    build = function()
+    build = function(plugin)
       local f = io.open("/etc/NIXOS", "r")
       if f then
         f:close()
-        -- On NixOS
-        os.execute("nix run .#release")
+        vim.fn.system({ "nix", "run", ".#release" }, { cwd = plugin.dir })
       else
         require("fff.download").download_or_build_binary()
       end
