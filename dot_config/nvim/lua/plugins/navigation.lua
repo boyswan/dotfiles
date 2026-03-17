@@ -6,24 +6,41 @@ return {
   --   opts = {} -- check the default options in the README.md
   -- },
   {
-    "dmtrKovalenko/fff.nvim",
-    build = "cargo build --release",
-    -- or if you are using nixos
-    -- build = "nix run .#release",
-    opts = {
-      keymaps = {
-        move_up = { '<Up>', '<C-p>', '<C-k>' },
-        move_down = { '<Down>', '<C-n>', '<C-j>' },
-      },
-    },
+    'dmtrKovalenko/fff.nvim',
+    build = function()
+      require("fff.download").download_or_build_binary()
+    end,
+    lazy = false,
     keys = {
       {
-        "ff",                         -- try it if you didn't it is a banger keybinding for a picker
-        function()
-          require("fff").find_files() -- or find_in_git_root() if you only want git files
-        end,
-        desc = "Open file picker",
+        "<leader.fj", -- try it if you didn't it is a banger keybinding for a picker
+        function() require('fff').find_files() end,
+        desc = 'FFFind files',
       },
-    },
+      {
+        "ff", -- try it if you didn't it is a banger keybinding for a picker
+        function() require('fff').find_files() end,
+        desc = 'FFFind files',
+      },
+      {
+        "fg",
+        function() require('fff').live_grep() end,
+        desc = 'LiFFFe grep',
+      },
+      {
+        "fz",
+        function() require('fff').live_grep({
+          grep = {
+            modes = { 'fuzzy', 'plain' }
+          }
+        }) end,
+        desc = 'Live fffuzy grep',
+      },
+      {
+        "fc",
+        function() require('fff').live_grep({ query = vim.fn.expand("<cword>") }) end,
+        desc = 'Search current word',
+      },
+    }
   }
 }
