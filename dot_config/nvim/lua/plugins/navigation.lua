@@ -5,48 +5,48 @@ return {
   --   branch = "stable",
   --   opts = {} -- check the default options in the README.md
   -- },
-  {
-    'dmtrKovalenko/fff.nvim',
-    build = function(plugin)
-      local f = io.open("/etc/NIXOS", "r")
-      if f then
-        f:close()
-        vim.fn.system({ "nix", "run", ".#release" }, { cwd = plugin.dir })
-      else
-        require("fff.download").download_or_build_binary()
-      end
-    end,
-    lazy = false,
-    keys = {
-      {
-        "<leader.fj", -- try it if you didn't it is a banger keybinding for a picker
-        function() require('fff').find_files() end,
-        desc = 'FFFind files',
-      },
-      {
-        "ff", -- try it if you didn't it is a banger keybinding for a picker
-        function() require('fff').find_files() end,
-        desc = 'FFFind files',
-      },
-      {
-        "fg",
-        function() require('fff').live_grep() end,
-        desc = 'LiFFFe grep',
-      },
-      {
-        "fz",
-        function() require('fff').live_grep({
-          grep = {
-            modes = { 'fuzzy', 'plain' }
-          }
-        }) end,
-        desc = 'Live fffuzy grep',
-      },
-      {
-        "fc",
-        function() require('fff').live_grep({ query = vim.fn.expand("<cword>") }) end,
-        desc = 'Search current word',
-      },
-    }
-  }
+  -- {
+  --   'dmtrKovalenko/fff.nvim',
+  --   build = function(plugin)
+  --     local f = io.open("/etc/NIXOS", "r")
+  --     if f then
+  --       f:close()
+  --       vim.fn.system({ "nix", "run", ".#release" }, { cwd = plugin.dir })
+  --     else
+  --       require("fff.download").download_or_build_binary()
+  --     end
+  --   end,
+  --   lazy = false,
+  --   keys = {
+  --     {
+  --       "<leader.fj", -- try it if you didn't it is a banger keybinding for a picker
+  --       function() require('fff').find_files() end,
+  --       desc = 'FFFind files',
+  --     },
+  --     {
+  --       "ff", -- try it if you didn't it is a banger keybinding for a picker
+  --       function() require('fff').find_files() end,
+  --       desc = 'FFFind files',
+  --     },
+  --     {
+  --       "fg",
+  --       function() require('fff').live_grep() end,
+  --       desc = 'LiFFFe grep',
+  --     },
+  --     {
+  --       "fz",
+  --       function() require('fff').live_grep({
+  --         grep = {
+  --           modes = { 'fuzzy', 'plain' }
+  --         }
+  --       }) end,
+  --       desc = 'Live fffuzy grep',
+  --     },
+  --     {
+  --       "fc",
+  --       function() require('fff').live_grep({ query = vim.fn.expand("<cword>") }) end,
+  --       desc = 'Search current word',
+  --     },
+  --   }
+  -- }
 }
