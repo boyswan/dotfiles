@@ -8,7 +8,14 @@ return {
   {
     'dmtrKovalenko/fff.nvim',
     build = function()
-      require("fff.download").download_or_build_binary()
+      local f = io.open("/etc/NIXOS", "r")
+      if f then
+        f:close()
+        -- On NixOS
+        os.execute("nix run .#release")
+      else
+        require("fff.download").download_or_build_binary()
+      end
     end,
     lazy = false,
     keys = {
