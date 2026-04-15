@@ -19,7 +19,7 @@ return {
     lazy = false,
     keys = {
       {
-        "ff", -- try it if you didn't it is a banger keybinding for a picker
+        "fe", -- try it if you didn't it is a banger keybinding for a picker
         function() require('fff').find_files() end,
         desc = 'FFFind files',
       },
@@ -29,7 +29,7 @@ return {
         desc = 'LiFFFe grep',
       },
       {
-        "fz",
+        "fl",
         function() require('fff').live_grep({
           grep = {
             modes = { 'fuzzy', 'plain' }
