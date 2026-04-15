@@ -10,6 +10,12 @@ return {
     build = "nix run .#release",
     -- No need to lazy-load with lazy.nvim.
     -- This plugin initializes itself lazily.
+    opts = {
+      keymaps = {
+        move_up = { '<Up>', '<C-k>' },
+        move_down = { '<Down>', '<C-j>' },
+      },
+    },
     lazy = false,
     keys = {
       {
