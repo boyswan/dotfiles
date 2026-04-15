@@ -24,12 +24,12 @@ return {
         desc = 'FFFind files',
       },
       {
-        "fg",
+        "fl",
         function() require('fff').live_grep() end,
         desc = 'LiFFFe grep',
       },
       {
-        "fl",
+        "fk",
         function() require('fff').live_grep({
           grep = {
             modes = { 'fuzzy', 'plain' }
@@ -38,7 +38,7 @@ return {
         desc = 'Live fffuzy grep',
       },
       {
-        "fc",
+        "fw",
         function() require('fff').live_grep({ query = vim.fn.expand("<cword>") }) end,
         desc = 'Search current word',
       },
