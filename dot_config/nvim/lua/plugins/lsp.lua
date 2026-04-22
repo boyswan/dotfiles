@@ -185,7 +185,6 @@ return {
 
   {
     "mrcjkb/rustaceanvim",
-    version = "^5",
   },
   {
     "williamboman/mason.nvim",
