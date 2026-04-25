@@ -3,6 +3,9 @@
 b = ["bookmark"]
 n = ["new"]
 
+[revsets]
+log = "present(@) | ancestors(immutable_heads().., 10) | trunk()"
+
 [ui]
 paginate = "never"
 default-command = ["log", "--reversed"]
