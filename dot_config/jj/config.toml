@@ -9,4 +9,8 @@ log = "present(@) | ancestors(immutable_heads().., 10) | trunk()"
 [ui]
 paginate = "never"
 default-command = ["log", "--reversed"]
-diff-formatter = ["difft", "--color=always", "$left", "$right"]
+diff-formatter = "difft"
+
+[merge-tools.difft]
+program = "difft"
+diff-args = ["--color=always", "$left", "$right"]
