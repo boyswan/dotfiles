@@ -15,6 +15,7 @@ alias k = kubectl
 alias t = talosctl 
 alias dc = docker compose
 alias z = zellij
+alias ld = lumen diff
 alias gs = git status
 alias gb = git branch 
 alias gp = git push 
