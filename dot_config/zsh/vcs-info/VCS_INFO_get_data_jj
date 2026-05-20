@@ -1,0 +1,55 @@
+# Adapted from rkh/zsh-jj.
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 Konstantin Haase
+
+setopt localoptions NO_shwordsplit
+
+local base=${vcs_comm[basedir]}
+local action branch staged unstaged revision misc
+local _bookmarks _conflict _divergent _hidden _immutable _empty _description
+local _jj_info _line _key _value
+
+_jj_info=$(${vcs_comm[cmd]} log --ignore-working-copy -n 1 --no-graph --color never -r "@" \
+  -T '
+    separate("\n",
+      "revision=" ++ change_id.shortest(4),
+      "bookmarks=" ++ bookmarks.join(", "),
+      "conflict=" ++ conflict,
+      "divergent=" ++ divergent,
+      "hidden=" ++ hidden,
+      "immutable=" ++ immutable,
+      "empty=" ++ empty,
+      "description=" ++ coalesce(description.first_line().substr(0, 30), "(no description)")
+    )
+  ' 2>/dev/null) || return 1
+
+while IFS= read -r _line; do
+  _key=${_line%%=*}
+  _value=${_line#*=}
+  case $_key in
+    revision) revision=$_value ;;
+    bookmarks) _bookmarks=$_value ;;
+    conflict) _conflict=$_value ;;
+    divergent) _divergent=$_value ;;
+    hidden) _hidden=$_value ;;
+    immutable) _immutable=$_value ;;
+    empty) _empty=$_value ;;
+    description) _description=$_value ;;
+  esac
+done <<< "$_jj_info"
+
+revision=${revision//\%/%%}
+_bookmarks=${_bookmarks//\%/%%}
+_description=${_description//\%/%%}
+
+[[ -n $_bookmarks ]] && branch=" [$_bookmarks]"
+
+[[ $_conflict == "true" ]] && action+=" %B%F{red}×%f%b"
+[[ $_divergent == "true" ]] && action+=" %B%F{yellow}≠%f%b"
+[[ $_hidden == "true" ]] && action+=" %F{244}ø%f"
+[[ $_immutable == "true" ]] && action+=" %F{244}∞%f"
+
+[[ $_empty == "true" ]] && misc+="∅ "
+misc+="%F{green}${_description:-"(no description)"}%f"
+
+VCS_INFO_formats "${action}" "${branch}" "${base}" "${staged}" "${unstaged}" "${revision}" "${misc}"
