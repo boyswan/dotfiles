@@ -1,5 +1,6 @@
 bindkey -s '^F' 'cd_fzf\n'
 bindkey -s '^E' 'file_fzf\n'
+bindkey -s '^O' 'nvim .\n'
 bindkey -s '^h' 'history_fzf\n'
 bindkey '^[^?' backward-kill-word
 bindkey '^l' expand-or-complete
