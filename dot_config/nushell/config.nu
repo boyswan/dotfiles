@@ -6,6 +6,7 @@ alias jgp = jj git push
 alias jd = jj describe
 alias jn = jj new
 alias jf = jj diff
+alias jdi = jj diff
 alias je = jj edit
 alias jl = jj log --reversed
 alias jla = jj log -r ::@ --reversed
