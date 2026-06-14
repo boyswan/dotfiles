@@ -12,7 +12,7 @@ return {
     end
   },
  { "https://github.com/y9san9/y9nika.nvim" },
- { "https://github.com/boyswan/anysphere.nvim" },
+ { dir = "/home/jack/Projects/anysphere-nvim", name = "anysphere.nvim" },
 
   -- { 'datsfilipe/vesper.nvim' },
   -- { "vague-theme/vague.nvim", },

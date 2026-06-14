@@ -6,7 +6,7 @@ return {
       local function apply_rainbow_highlights()
         vim.api.nvim_set_hl(0, "RainbowDelimiterYellow", { fg = "#FFD800" })
         vim.api.nvim_set_hl(0, "RainbowDelimiterViolet", { fg = "#DA70D6" })
-        vim.api.nvim_set_hl(0, "RainbowDelimiterCyan", { fg = "#00FFFF" })
+        vim.api.nvim_set_hl(0, "RainbowDelimiterCyan", { fg = "#169FFF" })
       end
 
       vim.g.rainbow_delimiters = {
