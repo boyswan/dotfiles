@@ -1,6 +1,9 @@
 return {
+
+  {"https://github.com/hiphish/rainbow-delimiters.nvim"},
   {
     "nvim-treesitter/nvim-treesitter",
+
     dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",
       "IndianBoy42/tree-sitter-just",
