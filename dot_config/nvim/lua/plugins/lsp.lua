@@ -15,6 +15,10 @@ return {
 
       -- LSP settings
       local on_attach = function(client, bufnr)
+        if client.name == 'gopls' then
+          client.server_capabilities.semanticTokensProvider = nil
+        end
+
         vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
         local bufopts = { noremap = true, silent = true, buffer = bufnr }
