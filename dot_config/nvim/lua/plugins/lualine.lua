@@ -34,7 +34,7 @@ return {
   {
     "nvim-lualine/lualine.nvim",
     dependencies = {
-      { "navarasu/onedark.nvim", lazy = false },
+      { "https://github.com/boyswan/anysphere.nvim" },
     },
     opts = {
       options = {
@@ -66,11 +66,12 @@ return {
     },
     config = function(_, opts)
 
-      local colors = require('onedark.colors')
-      -- local colors = {}
+      local colors = require("anysphere.palette").get()
+      local bg = colors.bg or colors.background or "#202020"
+      local bg_highlight = colors.bg_highlight or colors.bg_alt or colors.bg1 or "#313131"
 
-      opts.options.theme.normal = { c = { bg = "#202020", fg = colors.fg } }
-      opts.options.theme.inactive = { c = { bg = "#202020", fg = colors.fg } }
+      opts.options.theme.normal = { c = { bg = bg, fg = colors.fg } }
+      opts.options.theme.inactive = { c = { bg = bg, fg = colors.fg } }
 
       ins_left(opts, {
         --  mode component
@@ -104,7 +105,7 @@ return {
             ['!'] = colors.red,
             t = colors.red,
           }
-          return { bg = "#313131", fg = mode_color[vim.fn.mode()], gui = "bold" }
+          return { bg = bg_highlight, fg = mode_color[vim.fn.mode()], gui = "bold" }
         end,
         padding = { left = 1, right = 1 },
       })
