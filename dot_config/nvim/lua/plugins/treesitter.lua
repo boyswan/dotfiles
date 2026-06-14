@@ -1,6 +1,29 @@
 return {
 
-  {"https://github.com/hiphish/rainbow-delimiters.nvim"},
+  {
+    "https://github.com/hiphish/rainbow-delimiters.nvim",
+    config = function()
+      local function apply_rainbow_highlights()
+        vim.api.nvim_set_hl(0, "RainbowDelimiterYellow", { fg = "#FFD800" })
+        vim.api.nvim_set_hl(0, "RainbowDelimiterViolet", { fg = "#DA70D6" })
+        vim.api.nvim_set_hl(0, "RainbowDelimiterCyan", { fg = "#00FFFF" })
+      end
+
+      vim.g.rainbow_delimiters = {
+        highlight = {
+          "RainbowDelimiterYellow",
+          "RainbowDelimiterViolet",
+          "RainbowDelimiterCyan",
+        },
+      }
+
+      apply_rainbow_highlights()
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        group = vim.api.nvim_create_augroup("RainbowDelimitersColors", { clear = true }),
+        callback = apply_rainbow_highlights,
+      })
+    end,
+  },
   {
     "nvim-treesitter/nvim-treesitter",
 
