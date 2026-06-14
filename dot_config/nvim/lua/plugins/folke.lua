@@ -69,7 +69,7 @@ return {
       },
       -- bigfile = { enabled = false },
       -- dashboard = { enabled = false },
-      indent = { enabled = true },
+      -- indent = { enabled = false },
       -- input = { enabled = false },
       -- notifier = { enabled = false },
       -- quickfile = { enabled = false },
