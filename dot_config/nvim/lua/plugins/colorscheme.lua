@@ -12,7 +12,16 @@ return {
     end
   },
  { "https://github.com/y9san9/y9nika.nvim" },
- { dir = "/home/jack/Projects/anysphere-nvim", name = "anysphere.nvim" },
+ {
+    dir = "/home/jack/Projects/anysphere-nvim",
+    name = "anysphere.nvim",
+    config = function()
+      require("anysphere").setup({
+        italic_comments = false,
+        italic_keywords = false,
+      })
+    end,
+  },
 
   -- { 'datsfilipe/vesper.nvim' },
   -- { "vague-theme/vague.nvim", },
