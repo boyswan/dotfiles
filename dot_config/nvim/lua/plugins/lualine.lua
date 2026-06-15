@@ -30,7 +30,7 @@ local function ins_right(opts, component)
   table.insert(opts.sections.lualine_x, component)
 end
 
-local function statusline_theme(bg, fg)
+local function statusline_sections(bg, fg)
   return {
     a = { bg = bg, fg = fg },
     b = { bg = bg, fg = fg },
@@ -39,6 +39,27 @@ local function statusline_theme(bg, fg)
     y = { bg = bg, fg = fg },
     z = { bg = bg, fg = fg },
   }
+end
+
+local function statusline_theme(colors, bg)
+  return {
+    normal = statusline_sections(bg, colors.fg),
+    insert = statusline_sections(bg, colors.fg),
+    visual = statusline_sections(bg, colors.fg),
+    replace = statusline_sections(bg, colors.fg),
+    command = statusline_sections(bg, colors.fg),
+    terminal = statusline_sections(bg, colors.fg),
+    inactive = statusline_sections(bg, colors.fg_muted or colors.fg),
+  }
+end
+
+local function sync_bottom_highlights(colors, bg)
+  vim.api.nvim_set_hl(0, "StatusLine", { bg = bg, fg = colors.fg })
+  vim.api.nvim_set_hl(0, "StatusLineNC", { bg = bg, fg = colors.fg_muted or colors.fg })
+  vim.api.nvim_set_hl(0, "StatusLineTerm", { bg = bg, fg = colors.fg })
+  vim.api.nvim_set_hl(0, "StatusLineTermNC", { bg = bg, fg = colors.fg_muted or colors.fg })
+  vim.api.nvim_set_hl(0, "MsgArea", { bg = bg, fg = colors.fg })
+  vim.api.nvim_set_hl(0, "MsgSeparator", { bg = bg, fg = colors.border or colors.fg_muted or colors.fg })
 end
 
 return {
@@ -81,13 +102,17 @@ return {
       local bg = colors.bg_statusline or colors.bg or colors.background or "#202020"
       local bg_highlight = colors.bg_highlight or colors.bg_alt or colors.bg1 or "#313131"
 
-      opts.options.theme.normal = statusline_theme(bg, colors.fg)
-      opts.options.theme.inactive = statusline_theme(bg, colors.fg_muted or colors.fg)
+      opts.options.theme = statusline_theme(colors, bg)
+      sync_bottom_highlights(colors, bg)
 
-      vim.api.nvim_set_hl(0, "StatusLine", { bg = bg, fg = colors.fg })
-      vim.api.nvim_set_hl(0, "StatusLineNC", { bg = bg, fg = colors.fg_muted or colors.fg })
-      vim.api.nvim_set_hl(0, "MsgArea", { bg = bg, fg = colors.fg })
-      vim.api.nvim_set_hl(0, "MsgSeparator", { bg = bg, fg = colors.border or colors.fg_muted or colors.fg })
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        group = vim.api.nvim_create_augroup("LualineBottomBackground", { clear = true }),
+        callback = function()
+          local current_colors = require("anysphere.palette").get()
+          local current_bg = current_colors.bg_statusline or current_colors.bg or current_colors.background or "#202020"
+          sync_bottom_highlights(current_colors, current_bg)
+        end,
+      })
 
       ins_left(opts, {
         --  mode component
@@ -193,7 +218,7 @@ return {
         function()
           local msg = '-'
           local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
-          local clients = vim.lsp.get_active_clients()
+          local clients = vim.lsp.get_clients({ bufnr = 0 })
           if next(clients) == nil then
             return msg
           end
