@@ -1,43 +1,42 @@
 [colors.bright]
-black = "0x676767"
-blue = "0x4c9df3"
-cyan = "0x75d3ba"
-green = "0x15ac91"
-magenta = "0xe567dc"
-red = "0xf14c4c"
-white = "0xd6d6dd"
-yellow = "0xe5b95c"
+black = "0x5c6370"
+blue = "0x61afef"
+cyan = "0x56b6c2"
+green = "0x98c379"
+magenta = "0xc678dd"
+red = "0xe86671"
+white = "0xabb2bf"
+yellow = "0xe5c07b"
 
 [colors.cursor]
-cursor = "0xd6d6dd"
-text = "0x181818"
+text = "0x282c34"
 
 [colors.dim]
 black = "0x181818"
-blue = "0x4c9df3"
-cyan = "0x75d3ba"
-green = "0x15ac91"
-magenta = "0xe567dc"
-red = "0xf14c4c"
-white = "0x7a797a"
-yellow = "0xe5b95c"
+blue = "0x61afef"
+cyan = "0x56b6c2"
+green = "0x98c379"
+magenta = "0xc678dd"
+red = "0xe86671"
+white = "0x5c6370"
+yellow = "0xe5c07b"
 
 [colors.normal]
-black = "0x676767"
-blue = "0x4c9df3"
-cyan = "0x75d3ba"
-green = "0x15ac91"
-magenta = "0xe567dc"
-red = "0xf14c4c"
-white = "0xd6d6dd"
-yellow = "0xe5b95c"
+black = "0x181a1f"
+blue = "0x61afef"
+cyan = "0x56b6c2"
+green = "0x98c379"
+magenta = "0xc678dd"
+red = "0xe86671"
+white = "0xabb2bf"
+yellow = "0xe5c07b"
 
 [colors.primary]
-background = "0x191919"
-foreground = "0xd6d6dd"
+background = "0x232326"
+foreground = "0xE1E1E1"
 
 [colors.selection]
-background = "0x163761"
+background = "0x181a1f" # black
 text = "CellForeground"
 
 [env]

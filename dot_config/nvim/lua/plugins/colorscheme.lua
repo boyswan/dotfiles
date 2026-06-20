@@ -1,26 +1,17 @@
 return {
   {
     "navarasu/onedark.nvim",
+    lazy = false,
     -- version = "v0.1.0", -- Pin to the old version
+    priority = 1000,
     config = function()
       require('onedark').setup {
         style = 'warmer'
       }
+      require('onedark').load()
     end
   },
- { "https://github.com/y9san9/y9nika.nvim" },
- {
-    "https://github.com/boyswan/anysphere.nvim",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require("anysphere").setup({
-        italic_comments = false,
-        italic_keywords = false,
-      })
-      vim.cmd.colorscheme("anysphere")
-    end,
-  },
+  { "https://github.com/y9san9/y9nika.nvim" },
 
   -- { 'datsfilipe/vesper.nvim' },
   -- { "vague-theme/vague.nvim", },

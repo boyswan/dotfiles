@@ -2,6 +2,7 @@ return {
 
   {
     "https://github.com/hiphish/rainbow-delimiters.nvim",
+    enabled = false,
     config = function()
       local function apply_rainbow_highlights()
         vim.api.nvim_set_hl(0, "RainbowDelimiterYellow", { fg = "#E8D35E" })
@@ -59,7 +60,7 @@ return {
       },
 
       rainbow = {
-        enable = true,
+        enable = false,
         -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
         extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
         max_file_lines = nil, -- Do not enable for files with more than n lines, int
