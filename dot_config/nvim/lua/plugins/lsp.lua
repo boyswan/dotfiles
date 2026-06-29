@@ -55,7 +55,8 @@ return {
         'taplo',
         'terraformls',
         'nushell',
-        'nil_ls'
+        'nil_ls',
+        'ols',
       }
       for _, lsp in pairs(servers) do
         vim.lsp.config(lsp, {
