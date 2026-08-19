@@ -1,1 +1,2 @@
 VIM="nvim"
+FFF_ENABLE_HOME_SCAN="0"
