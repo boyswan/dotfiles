@@ -56,6 +56,7 @@ return {
         'terraformls',
         'nushell',
         'nil_ls',
+        'ty',
         'ols',
       }
       for _, lsp in pairs(servers) do
