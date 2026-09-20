@@ -58,6 +58,7 @@ return {
         'nil_ls',
         'ty',
         'ols',
+        'elixirls'
       }
       for _, lsp in pairs(servers) do
         vim.lsp.config(lsp, {
@@ -172,20 +173,6 @@ return {
       --   -- optional settings
       --   settings = {}
       -- }
-
-      vim.lsp.config("elixirls", {
-        cmd = { vim.fn.expand("~/.local/share/nvim/mason/packages/elixir-ls/language_server.sh") },
-        on_attach = on_attach,
-        capabilities = capabilities,
-        settings = {
-          elixirLS = {
-            dialyzerEnabled = false,
-            fetchDeps = false,
-          }
-        }
-      })
-
-      vim.lsp.enable({ "elixirls" })
     end
   },
 
