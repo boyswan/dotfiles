@@ -54,7 +54,6 @@ $env.EDITOR = "nvim"
 $env.FFF_ENABLE_HOME_SCAN = "0"
 $env.VISUAL = "nvim"
 $env.TERMINAL = "alacritty"
-$env.PATH = ($env.PATH | prepend "/opt/homebrew/bin")
 $env.config = {
   hooks: {
     pre_prompt: [{ ||
