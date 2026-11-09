@@ -139,5 +139,7 @@ $env.config = {
   ]
 }
 
+source ($nu.default-config-dir | path join mise.nu)
+
 use ./completions-jj.nu *
 source ./prompt.nu
