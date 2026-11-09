@@ -89,9 +89,8 @@ $env.PROMPT_COMMAND = {||
     # 3. Formatting
     # If vcs_info is null, display empty string, otherwise display the text
     let vcs_display = if ($vcs_info != null) { $vcs_info.display } else { "" }
-    let mise_display = if ('__MISE_DIFF' in $env) { $" (ansi yellow)[mise](ansi reset)" } else { "" }
     # Output
-    $"\n(ansi cyan)($dir) ($vcs_display)($mise_display)\n(ansi green)❯ (ansi reset)"
+    $"\n(ansi cyan)($dir) ($vcs_display)\n(ansi green)❯ (ansi reset)"
 }
 $env.PROMPT_COMMAND_RIGHT = {||
     let date_str = (date now | format date "%Y-%m-%d")
